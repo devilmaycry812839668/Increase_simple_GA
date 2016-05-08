@@ -1,23 +1,36 @@
 class_GA 是标准遗传算法的类形式
+
 increase版本比Simple_G_A版本提示在25%到28%之间。
 
 输入参数：
 bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross
 
 s=[]#存放种群的列表
+
 s_choose=[]#选择操作的辅助二进制位列表
+
 s_cross=[]#交叉操作的辅助二进制位列表
+
 s_change=[]#变异操作的辅助二进制位列表
+
 bit_len#个体二进制位长度
+
 p_n#种群个体数
+
 alfa#交叉率
+
 belta#变异率
+
 object_fun#目标函数
+
 N#迭代次数
+
 x_tuple#变量x1, x2, x3等，二进制位长度, 为元组
 
 #多点交叉参数:是否多点交叉， 交叉点数目是否随机，基准交叉点数
+
 mul_cross=(False, None, False)
+
 如果不开启多点交叉即第一个元素为False，元组的后两个元素可以输入任意值
 
 
