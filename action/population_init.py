@@ -29,7 +29,7 @@ def choose_start_fun(self, s_choose, s_tuple, l_sep):
     t=0
     for i in s_tuple:
         t=t+i
-	s_choose.append( (2**i-1)*( 2**(l_sep-t) ) )
+	s_choose.append( ( (2**i-1)*( 2**(l_sep-t) ), 2**(l_sep-t)) )
 
 
 
