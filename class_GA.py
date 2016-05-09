@@ -82,7 +82,6 @@ class Genetic(object):
 	    print "function object maybe wrong"
 	    raise self.paramError, e
 
-	
 
     def __init__(self, bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross=(False, None, False)):
 	self.param_check()
@@ -132,29 +131,48 @@ class Genetic(object):
     	    self.choose_fun(self, self.s, self.object_fun, self.s_choose)#选择
             self.cross_fun(self, self.s, self.alfa, self.s_cross, self.mul_cross)    #交叉
             self.change_fun(self, self.s, self.belta, self.bit_len, self.s_change)#变异
-	    
+    
+    #目标函数的最大值
+    def object_max_value(self):	    
+	max_var=max(self.s, key=lambda x:object_fun([(t[0]&x)/t[1] for t in a.s_choose]))
+	return object_fun([(t[0]&max_var)/t[1] for t in self.s_choose]) 
 	
 
 
 #目标函数
 #p 为每个DNA个体的二进制表示， 即 "11010101"
 def object_fun(p):
-    object_value = p[0]**2+p[1]**2+p[2]**2
+    import math
+    x=p[0]*10.0/(2**17-1)-5
+
+    y=p[1]*10.0/(2**17-1)-5
+
+    object_value =0.5-((math.sin( math.sqrt(x**2+y**2) ))**2-0.5)/(1+0.001*(x**2+y**2))**2
+
     return object_value
         
+"""
+#单元测试代码
 
-N=1000#迭代的次数
+N=300#迭代的次数
 alfa=0.6#交叉率
-belta=0.005#变异率
+belta=0.01#变异率
 p_n=200#DNA 条数
-bit_len=24#每条DNA 二进制位长度
-x_tuple=(8, 8, 8)#(2, 4, 2) 变量x1, x2, x3等，二进制位长度
-#mul_cross=(False, None, False)#是否多点交叉， 交叉点数目是否随机，基准交叉点数
-mul_cross=(True, 3, True)
+bit_len=34#每条DNA 二进制位长度
+x_tuple=(17, 17)#(2, 4, 2) 变量x1, x2, x3等，二进制位长度
+mul_cross=(False, None, False)#是否多点交叉， 交叉点数目是否随机，基准交叉点数
+#mul_cross=(True, 3, True)
 
 
-#a为生成的实例
-a=Genetic(bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross)
 
-a.run()
-print sorted(a.s)[::-1][:10]
+lll=[]
+for i in xrange(1000):
+    #a为生成的实例
+    a=Genetic(bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross)
+
+    a.run()
+
+    lll.append(a.object_max_value())
+print sum(lll)/1000
+"""
+
