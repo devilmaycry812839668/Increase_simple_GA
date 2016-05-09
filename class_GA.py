@@ -138,6 +138,9 @@ class Genetic(object):
 	return object_fun([(t[0]&max_var)/t[1] for t in self.s_choose]) 
 	
 
+        
+"""
+#单元测试代码
 
 #目标函数
 #p 为每个DNA个体的二进制表示， 即 "11010101"
@@ -150,9 +153,7 @@ def object_fun(p):
     object_value =0.5-((math.sin( math.sqrt(x**2+y**2) ))**2-0.5)/(1+0.001*(x**2+y**2))**2
 
     return object_value
-        
-"""
-#单元测试代码
+
 
 N=300#迭代的次数
 alfa=0.6#交叉率
