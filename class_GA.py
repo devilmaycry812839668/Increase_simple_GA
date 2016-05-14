@@ -37,7 +37,7 @@ class Genetic(object):
 
     class paramError(Exception):
         pass
-    def param_check(self, bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross):
+    def param_check(self, bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross, wheel):
 	if type(bit_len)!=int:
 	    raise self.paramError, "param bit_len is wrong, it must be int"
         if type(p_n)!=int and type(p_n)!=long:
@@ -74,6 +74,9 @@ class Genetic(object):
 		raise self.paramError, "scop of mul_cross[1] is wrong"
 	    elif type(mul_cross[2])!=bool:	
 		raise self.paramError, "mul_cross[2] must be bool"
+	if type(wheel)!=bool:
+		raise self.paramError, "wheel must be bool"
+		
 
 	try:
 	    object_fun((0, )*len(x_tuple))
@@ -83,8 +86,8 @@ class Genetic(object):
 	    raise self.paramError, e
 
 
-    def __init__(self, bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross=(False, None, False)):
-	self.param_check(bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross)
+    def __init__(self, bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross=(False, None, False), wheel=False):
+	self.param_check(bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross, wheel)
         #初始化
 	self.s=[]#存放种群的列表
 	self.s_choose=[]#选择操作的辅助二进制位列表
@@ -101,6 +104,9 @@ class Genetic(object):
 	多点交叉参数:是否多点交叉， 交叉点数目是否随机，基准交叉点数
         """
         self.mul_cross=mul_cross
+	
+	#是否开启轮盘赌
+	self.wheel=wheel
 
 
         self.p_start_fun=p_init.p_start_fun
@@ -128,7 +134,7 @@ class Genetic(object):
 
     def run(self):
         for i in xrange(self.N):# N 100000 :  迭代的次数
-    	    self.choose_fun(self, self.s, self.object_fun, self.s_choose)#选择
+    	    self.choose_fun(self, self.s, self.object_fun, self.s_choose, self.wheel)#选择
             self.cross_fun(self, self.s, self.alfa, self.s_cross, self.mul_cross)    #交叉
             self.change_fun(self, self.s, self.belta, self.bit_len, self.s_change)#变异
     

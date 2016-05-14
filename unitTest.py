@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 #encoding:UTF-8
 from class_GA import *
+import math
 
 #目标函数
 #p 为每个DNA个体的二进制表示， 即 "11010101"
 def object_fun(p):
-    import math
     x=p[0]*10.0/(2**17-1)-5
 
     y=p[1]*10.0/(2**17-1)-5
@@ -23,10 +23,14 @@ x_tuple=(17, 17)#(2, 4, 2) 变量x1, x2, x3等，二进制位长度
 mul_cross=(False, None, False)#是否多点交叉， 交叉点数目是否随机，基准交叉点数
 #mul_cross=(True, 3, True)
 
+#wheel用来选择是否开启轮盘赌，True开启，False关闭
+#wheel=True
+wheel=False
+
 lll=[]
 for i in xrange(1000):
     #a为生成的实例
-    a=Genetic(bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross)
+    a=Genetic(bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross, wheel)
 
     a.run()
 
