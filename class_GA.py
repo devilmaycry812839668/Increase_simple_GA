@@ -37,7 +37,7 @@ class Genetic(object):
 
     class paramError(Exception):
         pass
-    def param_check(self):
+    def param_check(self, bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross):
 	if type(bit_len)!=int:
 	    raise self.paramError, "param bit_len is wrong, it must be int"
         if type(p_n)!=int and type(p_n)!=long:
@@ -84,7 +84,7 @@ class Genetic(object):
 
 
     def __init__(self, bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross=(False, None, False)):
-	self.param_check()
+	self.param_check(bit_len, p_n, alfa, belta, object_fun, N, x_tuple, mul_cross)
         #初始化
 	self.s=[]#存放种群的列表
 	self.s_choose=[]#选择操作的辅助二进制位列表
@@ -127,19 +127,18 @@ class Genetic(object):
 
 
     def run(self):
-        for i in xrange(N):# N 100000 :  迭代的次数
+        for i in xrange(self.N):# N 100000 :  迭代的次数
     	    self.choose_fun(self, self.s, self.object_fun, self.s_choose)#选择
             self.cross_fun(self, self.s, self.alfa, self.s_cross, self.mul_cross)    #交叉
             self.change_fun(self, self.s, self.belta, self.bit_len, self.s_change)#变异
     
     #目标函数的最大值
     def object_max_value(self):	    
-	max_var=max(self.s, key=lambda x:object_fun([(t[0]&x)/t[1] for t in a.s_choose]))
-	return object_fun([(t[0]&max_var)/t[1] for t in self.s_choose]) 
+	max_var=max(self.s, key=lambda x:self.object_fun([(t[0]&x)/t[1] for t in self.s_choose]))
+	return self.object_fun([(t[0]&max_var)/t[1] for t in self.s_choose]) 
 	
 
-        
-"""
+"""       
 #单元测试代码
 
 #目标函数
@@ -176,4 +175,3 @@ for i in xrange(1000):
     lll.append(a.object_max_value())
 print sum(lll)/1000
 """
-
