@@ -131,12 +131,18 @@ class Genetic(object):
 	self.cross_fun=p_cross.cross_fun#交叉
 	self.change_fun=p_change.change_fun#变异
 
+	self.per_list=[]#存放每一次迭代的最优目标函数值
+
+
+    def all_max(self):
+	return max(self.per_list)
 
     def run(self):
         for i in xrange(self.N):# N 100000 :  迭代的次数
     	    self.choose_fun(self, self.s, self.object_fun, self.s_choose, self.wheel)#选择
             self.cross_fun(self, self.s, self.alfa, self.s_cross, self.mul_cross)    #交叉
             self.change_fun(self, self.s, self.belta, self.bit_len, self.s_change)#变异
+	    self.per_list.append(self.object_max_value())
     
     #目标函数的最大值
     def object_max_value(self):	    

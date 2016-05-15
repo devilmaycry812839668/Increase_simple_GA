@@ -34,6 +34,7 @@ for i in xrange(1000):
 
     a.run()
 
-    lll.append(a.object_max_value())
+    #lll.append(a.object_max_value())
+    lll.append(a.all_max())
 print sum(lll)/1000
 
